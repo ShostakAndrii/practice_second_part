@@ -42,7 +42,7 @@
   "scope": ".",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "fff",
+  "background_color": "#fff",
   "theme_color": "#3f51b5",
   "description": "Just my PWA project",
   "dir": "ltr",
