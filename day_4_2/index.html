@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Europe capitals</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="results">
+  	<div id="capital_result" class="result">
+  		<p id="capital_list">List of capitals:</p>
+  	</div>
+  </div>
+
+  <div class="buttons">
+  	<button id="capital_button">Get list</button>
+  </div>
+
+  <script type="text/javascript">
+    const capital_btn = document.getElementById('capital_button');
+    const capital_result = document.getElementById('capital_result');
+
+    capital_btn.addEventListener('click', getList);
+
+    function getList() {
+      fetch("https://restcountries.com/v3.1/region/europe")
+                 .then(resolve => resolve.json())
+                 .then(data => {
+                     data.forEach(country => {
+                         var new_capital = document.createElement("p");
+                         new_capital.innerHTML = `${country.capital[0]}`;
+
+                         capital_result.parentNode.insertBefore(new_capital, capital_result.nextSibling);
+                     });
+                 })
+    }
+  </script>
+</body>
+</html>
