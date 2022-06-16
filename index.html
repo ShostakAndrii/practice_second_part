@@ -8,11 +8,38 @@
   <link rel="manifest" href="manifest.json">
   <title>Document</title>
   <script>
+    function askPermission() {
+      return new Promise(function(resolve, reject) {
+        const permissionResult = Notification.requestPermission(function(result) {
+        resolve(result);
+        });
+
+        if (permissionResult) {
+        permissionResult.then(resolve, reject);
+        }
+      })
+      .then(function(permissionResult) {
+        if (permissionResult !== "granted") {
+        throw new Error("We weren\'t granted permission.");
+        }
+      });
+    }
+
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker
       .register("/sw.js")
       .then(function() {
         console.log("Service worker registered!");
+
+      });
+
+      navigator.serviceWorker.ready.then(registration => {
+        if ("PushManager" in window) {
+          document.querySelector("button.subscribe-for-push")
+            .addEventListener("click", () => {
+              askPermission()
+            });
+        }
       });
     }
   </script>
@@ -20,5 +47,6 @@
 <body>
   <h1>Hello world</h1>
   <img src="images/zxc-cat.gif" alt="zxc котик" width="300px" height="300px">
+  <button class="subscribe-for-push">SUBSCRIBE FOR PUSH NOTIFICATIONS</button>
 </body>
 </html>
